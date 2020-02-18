@@ -2,15 +2,15 @@
   <div class="login-container">
     <div class="login-wrapper">
       <div class="title">Welcome</div>
-      <el-form label-position="left" ref="form" :model="form" :rules="loginRules">
+      <el-form ref="form" label-width="80" :model="form" :rules="loginRules">
         <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" style="width:240px;"></el-input>
+          <el-input v-model="form.name"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="form.password" style="width:240px;"></el-input>
+          <el-input v-model="form.password"></el-input>
         </el-form-item>
       </el-form>
-      <div class="login-button">
+      <div class="login-button-wrapper">
         <el-button type="primary" class="login-button" @click="login">登录</el-button>
       </div>
       <div class="login-footer">输入任意账号和密码即可</div>
@@ -56,14 +56,13 @@ export default class Login extends Vue {
         };
         let role: string = JSON.stringify(data.roleList[0]);
         // 存储菜单
+        // 设置用户信息
         await UserModule.setttings(role);
         await UserModule.settingName(this.form.name);
-        console.log(this.form.name, 999);
         let constroutes = getPermissionRoutes(routes, getRole("role").name); // 如果要使用默认参数 需要指定为undefined 不使用默认参数传null或实际值
 
         await UserModule.settingRoute(constroutes);
 
-        // 设置用户信息
         this.$router.push({ path: "/home" });
       }
     });
@@ -75,8 +74,13 @@ export default class Login extends Vue {
 <style lang="scss" scoped>
 .login-container {
   padding: 200px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .login-wrapper {
+  width: 400px;
 }
 .title {
   font-size: 24px;
@@ -90,7 +94,7 @@ export default class Login extends Vue {
   color: rgba(0, 0, 0, 0.3);
 }
 .login-button {
-  width: 100px;
+  width: 300px;
   text-align: center;
   margin: auto;
   margin-top: 24px;
